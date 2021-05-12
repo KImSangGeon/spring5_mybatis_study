@@ -14,8 +14,6 @@ name varchar(50) not null comment '이름',
 email varchar(50) not null comment '이메일',
 phone varchar(15) default null comment '연락처', 
 dob date null comment '생일',
-bio longtext null comment '자기소개',
-pic blob null comment '사진',
 addr_id int(11) default null comment '주소', 
 primary key (stud_id),
 constraint fk_students_addr foreign key (addr_id) references mybatis_study.addresses (addr_id)
@@ -54,3 +52,16 @@ constraint fk_enrollment_stud foreign key (stud_id) references mybatis_study.stu
 constraint fk_enrollment_course foreign key (course_id) references mybatis_study.courses (course_id)
 );
 show tables;
+
+
+CREATE TABLE mybatis_study.user_pics (
+id int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+name varchar(50) not NULL COMMENT 'name',
+pic longblob COMMENT 'pic',
+bio longtext COLLATE utf8_unicode_ci COMMENT 'bio',
+PRIMARY KEY (id)
+);
+
+/*추가*/
+ALTER TABLE students ADD gender tinyint unsigned;
+

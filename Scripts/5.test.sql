@@ -3,7 +3,9 @@ select * from  course_enrollment;
 select * from courses;
 select * from students;
 select * from tutors;
-
+select * from user_pics ;
+desc user_pics ;
+show tables;
 select stud_id, name, email, dob, phone 
 from students 
 where stud_id =1;
@@ -33,3 +35,10 @@ select t.tutor_id, t.name as tutor_name, email,
 		from tutors t  join courses c 
 		on t.tutor_id=c.tutor_id
 		where t.tutor_id= 1;
+		
+	delete 
+	from students 
+	where stud_id =4;
+	delete 
+	from user_pics 
+	where id =1;
