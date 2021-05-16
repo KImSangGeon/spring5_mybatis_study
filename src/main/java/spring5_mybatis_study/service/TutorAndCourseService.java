@@ -15,6 +15,7 @@ public class TutorAndCourseService {
 	
 	@Autowired
 	private CourseMapper cMapper;
+	
 //	@Transactional //Aop를 이용할 경우 생략
 	public void trJoinTutorAndCourse(Tutor tutor, Course course) {
 		int res = tMapper.insertTutor(tutor);

@@ -101,6 +101,7 @@
 			</foreach>
 	</insert>
 	
+	<!-- 동적 SQL Foreach - delete -->
 	<delete id="deleteCourses" parameterType="map">
 		 delete 
 		   from courses 
@@ -112,6 +113,7 @@
 		</foreach>
 	</delete>
 	
+	<!-- Set 조건문 -->
 	<update id="updateSetStudent" parameterType="Student">
 		update students
 			<set>

@@ -24,14 +24,13 @@ public interface CourseMapper {
 	
 	/* foreach */
 	int insertCourses(Map<String, Object> map);
-	
+	/* foreach */
 	int deleteCourses(Map<String, Object> map);
 	
 	/*set 조건*/
 	int updateSetStudent(Student student);
 	
 	/* Transaction */
-
 	int insertCourse(Course course);
 	int deleteCourse(int courseId);
 }	

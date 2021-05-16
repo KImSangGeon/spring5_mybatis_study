@@ -74,3 +74,20 @@ begin
  	 	group by t.tutor_id;
 END$$
 DELIMITER ;
+
+DROP PROCEDURE IF EXISTS mybatis_study.course_total_group;
+
+DELIMITER $$
+$$
+CREATE PROCEDURE mybatis_study.course_total_group()
+BEGIN
+	  select t.name as tutor, ifnull(count(c.name),0) as total
+      from tutors t left join courses c 
+      on t.tutor_id = c.tutor_id 
+      group by t.tutor_id;
+     
+	END$$
+DELIMITER ;
+
+call course_total_group(); 
+

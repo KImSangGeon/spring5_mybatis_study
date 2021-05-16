@@ -59,8 +59,7 @@ public class CourseMapperTest {
 		List<Course> list = mapper.selectCoursesByCondition(map);
 		Assert.assertNotNull(list);
 		list.stream().forEach(System.out::println);
-		
-		
+				
 	}
 	
 	@Test
@@ -93,8 +92,7 @@ public class CourseMapperTest {
 		
 		list = mapper.selectCaseCourses(map);
 		Assert.assertNotNull(list);
-		list.stream().forEach(System.out::println);
-		
+		list.stream().forEach(System.out::println);		
 	}
 	
 	@Test
