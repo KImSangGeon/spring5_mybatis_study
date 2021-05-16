@@ -85,6 +85,7 @@ public class UserPicMapperTest {
 		if(!pics.exists()) {
 			pics.mkdir();
 		}
+		
 		File file = new File(pics, userPic.getName() + ".jpg");
 		try(FileOutputStream output = new FileOutputStream(file)){
 			output.write(userPic.getPic());

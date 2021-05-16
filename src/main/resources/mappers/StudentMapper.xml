@@ -98,7 +98,8 @@
 				values
 					(#{studId}, #{name}, #{email}, #{phone}, #{dob}, #{gender})				
 			</insert>		
-			
+		
+			<!-- 조건에 만족하는 내용에 대한 값을 출력 택1 -->
 			<sql id="where_name_email">
 				<where>
 					<if test="name != null">
@@ -109,7 +110,8 @@
 					</if>
 				</where>
 			</sql>
-			
+		
+			<!-- Parameters 받기 -->
 			<select id="selectStudentByMap" parameterType="map" resultMap="StudentResult">
 				<include refid="selectSQL"/>
 				<include refid="where_name_email"/>

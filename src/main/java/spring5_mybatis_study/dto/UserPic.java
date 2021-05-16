@@ -1,7 +1,5 @@
 package spring5_mybatis_study.dto;
 
-import java.util.Arrays;
-
 public class UserPic {
 	private int id;
 	private String name;

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring5_mybatis_study.mapper.CourseMapper">
+	
 	<resultMap type="Course" id="ResCourse">
 		<id property="courseId" column="course_id"/>
 		<result property="name" column="name"/>
@@ -8,4 +9,137 @@
 		<result property="startDate" column="start_date"/>
 		<result property="endDate" column="end_date"/>
 	</resultMap>
+	
+	<sql id="selectSql">
+		select
+			 course_id, name, description, 
+			 start_date, end_date, tutor_id
+		 from courses
+	</sql>
+		<!-- 동적 SQL WHERE --> 
+	<sql id="whereSql">
+		<where>
+			<if test="tutorId != null">
+					<![CDATA[ and tutor_id = #{tutorId}	]]>						
+			</if>
+			<if test="name">
+					<![CDATA[ and name like #{name}]]>					
+			</if>
+			<if test="startDate != null">
+					<![CDATA[ and start_date >= #{startDate}]]>			
+			</if>
+			<if test="endDate != null">
+					<![CDATA[ and end_date <= #{endDate}]]>
+			</if> 			
+		</where>
+	</sql>
+	
+	<select id="selectCoursesByCondition" parameterType="map" resultMap="ResCourse">
+		<include refid="selectSql"/>
+		<include refid="whereSql"/>
+	</select>
+	
+	<!-- 동적SQL choose -->
+	<select id="selectCaseCourses" parameterType="map" resultType="Course">
+		<include refid="selectSql"/>
+		<choose>
+				<when test="searchBy=='Tutor'">
+					where tutor_id = #{tutorId}
+				</when>
+				<when test="searchBy=='CourseName'">
+					where name like #{name}
+				</when>
+				<otherwise>
+					<![CDATA[ where end_date >= now()]]>
+				</otherwise>
+		</choose>
+	</select>
+	
+	<select id="selectWhereCourse" parameterType="map" resultType="Course">
+		<include refid="selectSql"/>
+		 <include refid="whereSql"/>
+	</select>
+	
+	<!-- 동적 SQL  Trim -->
+	<select id="selectTrimCourses" parameterType="map" resultType="Course">
+		<include refid="selectSql"/>		
+		<trim prefix = "WHERE" prefixOverrides="AND|OR">
+			<!-- 아래 tutorId != null 조건이 참이면 앞부분에 where 자동 추가 -->
+			<if test="tutorId != null">
+					tutor_id=#{tutorId}
+			</if>
+			<!-- 만약 where가 추가 된 경우 and 절 추가, where 존재하지 않는 경우 where 추가하고 and 제거 -->
+			<if test="name != null">
+				    	and  name  like  #{name}
+			</if>
+		</trim>	
+	</select>
+	
+	<!-- 동적 SQL Foreach - list -->
+	<select id="selectCoursesForeachByTutors" parameterType="map" resultType="Course">
+		<include refid="selectSql"/>
+		<if test="tutorIds != null">
+				<where>
+					tutor_id IN
+						<foreach collection="tutorIds" item="tutorId" index="index" open="(" close=")" separator=",">
+							#{tutorId}	
+						</foreach>
+				</where>
+		</if>
+	</select>
+	
+	<!-- 동적 SQL Foreach - insert -->
+	<insert id="insertCourses" parameterType="map">
+		insert into courses(course_id, name, description, start_date, end_date, tutor_id) values
+			<foreach collection="tutors" item="item" separator=" ," index="index">
+				(#{item.courseId},
+				 #{item.name},
+				 #{item.description},
+				 #{item.startDate},
+				 #{item.endDate},
+				 #{item.tutorId})
+			</foreach>
+	</insert>
+	
+	<delete id="deleteCourses" parameterType="map">
+		 delete 
+		   from courses 
+		   <where>
+		   		course_id IN		   
+		   </where>
+		<foreach collection="courseIds" item="courseId" separator=", " open="(" close=")">
+		 #{courseId}
+		</foreach>
+	</delete>
+	
+	<update id="updateSetStudent" parameterType="Student">
+		update students
+			<set>
+					<if test="name != null">name = #{name},</if>
+					<if test="email != null">email = #{email},</if>
+					<if test="phone != null">phone = #{phone},</if>
+					<if test="dob != null">dob = #{dob},</if>
+			</set>
+			<where>
+					<if test="studId != null">
+						stud_id = #{studId}
+					</if>
+			</where>
+	</update>
+	
+	<!-- trancsaction -->
+	<insert id="insertCourse" parameterType="Course">
+		insert into courses
+		(course_id, name, description, start_date, end_date, tutor_id)
+		values
+		(#{courseId}, #{name}, #{description}, #{startDate}, #{endDate}, #{tutorId})
+	</insert>
+	
+	<delete id="deleteCourse">
+		delete
+			from courses
+		where course_id = #{courseId}
+	</delete>
+	
+	
 </mapper>

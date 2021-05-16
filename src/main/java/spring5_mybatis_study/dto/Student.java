@@ -57,8 +57,7 @@ public class Student {
 	@Override
 	public String toString() {
 		return String.format("Student [%s, %s, %s, %s, %s, %s, %s]"
-				, studId, name, email, phone, dob, address,
-				
+				, studId, name, email, phone, dob, address,				
 				gender == Gender.FEMALE? "여자" : (gender == Gender.MALE? "남자" :"없음"));
 	}
 	

@@ -162,6 +162,8 @@ public class StudentMapperTest {
 		int res = mapper.insertEnumStudent(student);
 		Assert.assertEquals(1, res);
 		
+		log.debug(student.toString());		
+		
 		student.setStudId(4);
 		student.setName("김설");
 		student.setEmail("tjf@naver.com");
@@ -170,6 +172,8 @@ public class StudentMapperTest {
 		student.setGender(Gender.FEMALE);
 		int res1 = mapper.insertEnumStudent(student);
 		Assert.assertEquals(1, res1);
+		
+		log.debug(student.toString());		
 		
 		mapper.deleteStudent(3);
 		mapper.deleteStudent(4);
